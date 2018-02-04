@@ -1,47 +1,33 @@
 {
-  "_from": "git+http://git.ache.one/remark-select/",
-  "_id": "remark-select@0.1.0",
-  "_inBundle": false,
-  "_location": "/remark-select",
-  "_phantomChildren": {},
-  "_requested": {
-    "type": "git",
-    "raw": "remark-select@git+http://git.ache.one/remark-select/",
-    "name": "remark-select",
-    "escapedName": "remark-select",
-    "rawSpec": "git+http://git.ache.one/remark-select/",
-    "saveSpec": "git+http://git.ache.one/remark-select/",
-    "fetchSpec": "http://git.ache.one/remark-select/",
-    "gitCommittish": null
-  },
-  "_requiredBy": [
-    "/"
-  ],
-  "_resolved": "git+http://git.ache.one/remark-select/#ab599bd04e44cda7565a7db2eae82ed3525e857a",
-  "_spec": "remark-select@git+http://git.ache.one/remark-select/",
-  "_where": "/srv/md",
-  "author": {
-    "name": "ache"
-  },
-  "bundleDependencies": false,
-  "dependencies": {
-    "unist-util-visit": "^1.1.3"
-  },
-  "deprecated": false,
-  "description": "A remark plugin to parse line input syntax.",
-  "keywords": [
-    "line",
-    "input",
-    "remark"
-  ],
-  "license": "MIT",
-  "main": "app.js",
   "name": "remark-select",
+  "version": "0.1.0",
+  "repository": {
+    "url": "https://git.ache.one/markdown-viewer",
+    "type": "git"
+  },
+  "author": "Ache <ache@ache.one>",
+  "contributors": [
+    "ache <ache@ache.one>"
+  ],
+  "bundleDependencies": false,
+  "dependencies": {},
   "scripts": {
     "start": "node app.js"
   },
-  "version": "0.1.0",
-  "xo" : {
-    "space" : true
+  "main": "app.js",
+  "deprecated": false,
+  "description": "A remark plugin to parse select box syntax.",
+  "keywords": [
+    "select",
+    "box",
+    "remark"
+  ],
+  "devDependencies": {
+    "jest": "^22.1.4",
+    "xo": "^0.18.2"
+  },
+  "license": "MIT",
+  "xo": {
+    "space": true
   }
 }
