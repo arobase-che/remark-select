@@ -3,16 +3,16 @@
 const START = '[';
 const END_RGX = /(\| *v *])({[^\n]*})?/;
 
-function locator(value, fromIndex) {
+function locator (value, fromIndex) {
   const index = value.indexOf(START, fromIndex);
   return index;
 }
 
-function parseHTMLparam(value, indexNext) {
+function parseHTMLparam (value, indexNext) {
   let letsEat = '{';
   indexNext++;
 
-  const eat = (chars => {
+  const eat = chars => {
     let eaten = '';
     while (chars.indexOf(value.charAt(indexNext)) >= 0) {
       letsEat += value.charAt(indexNext);
@@ -20,8 +20,8 @@ function parseHTMLparam(value, indexNext) {
       indexNext++;
     }
     return eaten;
-  });
-  const eatUntil = (chars => {
+  };
+  const eatUntil = chars => {
     let eaten = '';
     while (chars.indexOf(value.charAt(indexNext)) < 0) {
       letsEat += value.charAt(indexNext);
@@ -29,14 +29,14 @@ function parseHTMLparam(value, indexNext) {
       indexNext++;
     }
     return eaten;
-  });
+  };
 
   const prop = {key: undefined /* {} */, class: undefined /* [] */, id: undefined};
   let type;
 
   while (value.charAt(indexNext) !== '}') {
     let labelFirst = '';
-    let labelSecond;
+    let labelSecond = '';
 
     eat(' \t\n\r\v');
 
@@ -99,16 +99,10 @@ function parseHTMLparam(value, indexNext) {
         break;
       case 'key':
         if (labelFirst !== 'id' && labelFirst !== 'class') {
-          prop[labelFirst] = labelSecond ? labelSecond : '';
+          prop[labelFirst] = labelSecond;
         }
         break;
       default:
-
-    }
-    if (labelSecond) {
-      console.log('{{' + labelFirst + '=' + labelSecond + '}}');
-    } else {
-      console.log('{{' + labelFirst + '}}');
     }
   }
   letsEat += '}';
@@ -116,9 +110,9 @@ function parseHTMLparam(value, indexNext) {
   return {type, prop, eaten: letsEat};
 }
 
-function plugin() {
+function plugin () {
   let END = '|v]';
-  function inlineTokenizer(eat, value, silent) {
+  function inlineTokenizer (eat, value, silent) {
     if (!this.options.gfm || !value.startsWith(START)) {
       return;
     }
@@ -131,14 +125,11 @@ function plugin() {
     now.offset += 2;
 
     let ret = null;
-    console.log(value.substr(1));
     if ((ret = value.substr(1).match(END_RGX)) && ++index < length) {
       subvalue += value.substr(1, ret.index);
       END = ret[0];
 
       index += ret.index;
-      console.log('Hello : ' + subvalue);
-      console.log('Bybye : ' + END);
       if (value.charAt(index) === '\n') {
         return true;
       }
@@ -150,7 +141,6 @@ function plugin() {
     if (value.charAt(index + END.length) === '{') {
       const res = parseHTMLparam(value, index + END.length);
       letsEat = res.eaten;
-      console.log(res.eaten);
       prop = res.prop;
     }
 
@@ -165,9 +155,7 @@ function plugin() {
 
     prop.placeholder = subvalue.replace(/^_*/g, '').replace(/_*$/g, '');
 
-    console.log(prop);
     if (index < length) {
-      console.log('#' + START + subvalue + END + letsEat + '#');
       return eat(START + subvalue + END + letsEat)({
         type: 'select',
         data: {
@@ -179,15 +167,15 @@ function plugin() {
               type: 'element',
               tagName: 'option',
               properties: {
-                value: text
+                value: text,
               },
               children: [{
                 type: 'text',
-                value: text
-              }]
+                value: text,
+              }],
             };
-          })
-        }
+          }),
+        },
       });
     }
     return true;
