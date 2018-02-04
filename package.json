@@ -28,6 +28,12 @@
   },
   "license": "MIT",
   "xo": {
-    "space": true
+    "space": true,
+    "rules": {
+      "comma-dangle": [
+        "error",
+        "always-multiline"
+      ]
+    }
   }
 }

@@ -3,12 +3,12 @@
 const START = '[';
 const END_RGX = /(\| *v *])({[^\n]*})?/;
 
-function locator (value, fromIndex) {
+function locator(value, fromIndex) {
   const index = value.indexOf(START, fromIndex);
   return index;
 }
 
-function parseHTMLparam (value, indexNext) {
+function parseHTMLparam(value, indexNext) {
   let letsEat = '{';
   indexNext++;
 
@@ -110,9 +110,9 @@ function parseHTMLparam (value, indexNext) {
   return {type, prop, eaten: letsEat};
 }
 
-function plugin () {
+function plugin() {
   let END = '|v]';
-  function inlineTokenizer (eat, value, silent) {
+  function inlineTokenizer(eat, value, silent) {
     if (!this.options.gfm || !value.startsWith(START)) {
       return;
     }
