@@ -1,7 +1,7 @@
 'use strict';
 
 const START = '[';
-const END_RGX = /(\| *v *])({[^\n]*})?/;
+const END_RGX = /(\| *[vV] *])({[^\n]*})?/;
 
 function locator(value, fromIndex) {
   const index = value.indexOf(START, fromIndex);
@@ -112,7 +112,7 @@ function parseHTMLparam(value, indexNext) {
 
 function plugin() {
   let END = '|v]';
-  function inlineTokenizer(eat, value, silent) {
+  function inlineTokenizer(eat, value) {
     if (!this.options.gfm || !value.startsWith(START)) {
       return;
     }
@@ -136,6 +136,7 @@ function plugin() {
     } else {
       return;
     }
+
     let letsEat = '';
     let prop = {key: undefined /* {} */, class: undefined /* [] */, id: undefined};
     if (value.charAt(index + END.length) === '{') {
@@ -143,17 +144,6 @@ function plugin() {
       letsEat = res.eaten;
       prop = res.prop;
     }
-
-    /* istanbul ignore if - never used (yet) */
-    if (silent) {
-      return true;
-    }
-
-    if (prop.type !== 'password') {
-      prop.type = 'text';
-    }
-
-    prop.placeholder = subvalue.replace(/^_*/g, '').replace(/_*$/g, '');
 
     if (index < length) {
       return eat(START + subvalue + END + letsEat)({
