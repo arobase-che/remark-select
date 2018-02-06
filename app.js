@@ -151,7 +151,7 @@ function plugin() {
         data: {
           hName: 'select',
           hProperties: prop,
-          hChildren: subvalue.split('|').map(untrim => {
+          hChildren: subvalue.split('|').filter(x => x).map(untrim => {
             const text = untrim.trim();
             return {
               type: 'element',
