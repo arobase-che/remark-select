@@ -36,7 +36,7 @@ function parseHTMLparam(value, indexNext) {
 
   while (value.charAt(indexNext) !== '}') {
     let labelFirst = '';
-    let labelSecond = '';
+    let labelSecond;
 
     eat(' \t\n\r\v');
 
@@ -99,10 +99,11 @@ function parseHTMLparam(value, indexNext) {
         break;
       case 'key':
         if (labelFirst !== 'id' && labelFirst !== 'class') {
-          prop[labelFirst] = labelSecond;
+          prop[labelFirst] = labelSecond || '';
         }
         break;
       default:
+
     }
   }
   letsEat += '}';
@@ -125,29 +126,28 @@ function plugin() {
     now.offset += 2;
 
     let ret = null;
-    if ((ret = value.substr(1).match(END_RGX)) && ++index < length) {
+    if ((ret = value.substr(1).match(END_RGX)) && index < length) {
       subvalue += value.substr(1, ret.index);
-      END = ret[0];
+      END = ret[1];
 
-      index += ret.index;
-      if (value.charAt(index) === '\n') {
-        return true;
-      }
+      index += ret.index + END.length;
     } else {
       return;
     }
 
     let letsEat = '';
     let prop = {key: undefined /* {} */, class: undefined /* [] */, id: undefined};
-    if (value.charAt(index + END.length) === '{') {
-      const res = parseHTMLparam(value, index + END.length);
+    if (value.charAt(index) === '{') {
+      const res = parseHTMLparam(value, index);
       letsEat = res.eaten;
+      index += letsEat.length;
       prop = res.prop;
     }
 
-    if (index < length) {
+    if (index <= length + 1) {
       return eat(START + subvalue + END + letsEat)({
         type: 'select',
+        children: [],
         data: {
           hName: 'select',
           hProperties: prop,
