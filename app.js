@@ -144,7 +144,7 @@ function plugin() {
       prop = res.prop;
     }
 
-    if (index <= length + 1) {
+    if (index <= length) {
       return eat(START + subvalue + END + letsEat)({
         type: 'select',
         children: [],
