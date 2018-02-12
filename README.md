@@ -8,7 +8,7 @@ A [remark](https://github.com/remarkjs/remark/) plugin that parse Mardown syntax
 You can add a select element this way :
 
 ```markdown
-[ Mario | Peach | Luigi |v]
+Who is the stronger ? : [ Samus | Peach | Zelda |v]
 ```
 
 Wich leads to :
@@ -26,7 +26,7 @@ Not ready at the moment.
 This plugin support custom HTML attributes :
 
 ```markdown
-Who is the stronger ? :  [ Samus | Peach | Zelda |v]{.nintendo #select-character}
+[ Mario | Peach | Luigi |v]{.nintendo #select-character}
 ```
 
 ## Licence
