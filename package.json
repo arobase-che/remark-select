@@ -1,16 +1,18 @@
 {
   "name": "remark-select",
-  "version": "0.1.0",
+  "version": "0.9.0",
   "repository": {
-    "url": "https://git.ache.one/markdown-viewer",
+    "url": "https://git.ache.one/remark-select",
     "type": "git"
   },
-  "author": "Ache <ache@ache.one>",
+  "author": "ache <ache@ache.one>",
   "contributors": [
     "ache <ache@ache.one>"
   ],
   "bundleDependencies": false,
-  "dependencies": {},
+  "dependencies": {
+    "md-attr-parser": "^1.0.0"
+  },
   "scripts": {
     "pretest": "xo",
     "test": "ava",
