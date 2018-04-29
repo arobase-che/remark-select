@@ -94,14 +94,27 @@ test('select-classes', t => {
 </select></p>`);
 });
 
-test('select-key-value', t => {
-  const {contents} = render('[ Falco | Fox |v]{game="Star Fox"}');
-  t.is(contents, `<p><select game="Star Fox">\
+test('classes key-value id', t => {
+  const {contents} = render('[ Falco | Fox |v]{game="Star Fox" .cyber #fox-mac-cloud}');
+  t.is(contents, `<p><select class="cyber" id="fox-mac-cloud" game="Star Fox">\
 <option value="Falco">Falco</option>\
 <option value="Fox">Fox</option>\
 </select></p>`);
 });
 
-test.todo('classes key-value id');
-test.todo('overwrite class');
-test.todo('overwrite id');
+test('overwrite class', t => {
+  const {contents} = render('[ Falco | Fox |v]{class="game" .otherGame}');
+  t.is(contents, `<p><select class="otherGame">\
+<option value="Falco">Falco</option>\
+<option value="Fox">Fox</option>\
+</select></p>`);
+});
+
+test('overwrite id', t => {
+  const {contents} = render('[ Falco | Fox |v]{id="fox" #maccloud}');
+  t.is(contents, `<p><select id="maccloud">\
+<option value="Falco">Falco</option>\
+<option value="Fox">Fox</option>\
+</select></p>`);
+});
+
