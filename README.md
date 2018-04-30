@@ -18,8 +18,42 @@ Wich leads to :
 
 ## Installation
 
-Not ready at the moment.
+Easy as npm i
 
+```shell
+$ npm install remark-line-input
+```
+
+You install also that plugins : "unified remark-parse rehype-stringify remark-rehype"
+```shell
+$ npm install unified remark-parse rehype-stringify remark-rehype
+```
+
+## Usage
+
+An example of code :
+
+```js
+const unified = require('unified')
+const remarkParse = require('remark-parse')
+const stringify = require('rehype-stringify')
+const remark2rehype = require('remark-rehype')
+
+const select = require('remark-select')
+
+const testFile = `Choose a player : [ Luigi | Mario | Peach | Falco | Zelda |v]{.mario .link .starFox}
+
+Choose an action : [ Start | Restart | Quit |v]`
+
+unified()
+  .use(remarkParse)
+  .use(select)
+  .use(remark2rehype) 
+  .use(stringify)
+  .process( testFile, (err, file) => {
+    console.log(String(file));
+  } );
+```
 
 ## Configuration
 
