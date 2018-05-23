@@ -7,8 +7,11 @@ import raw from 'rehype-raw';
 import reParse from 'remark-parse';
 import stringify from 'rehype-stringify';
 import remark2rehype from 'remark-rehype';
+import parse5 from 'parse5';
 
 import plugin from '../app';
+
+const dom5 = require('dom5');
 
 const render = text => unified()
   .use(reParse)
@@ -116,5 +119,55 @@ test('overwrite id', t => {
 <option value="Falco">Falco</option>\
 <option value="Fox">Fox</option>\
 </select></p>`);
+});
+
+test('not a select-box', t => {
+  const {contents} = renderRaw(`[ Mario | Peach | Luigi v]`);
+
+  t.is(null, dom5.query(parse5.parse(contents),
+                       dom5.predicates.hasTagName('select')));
+});
+
+test('not a select-box 2', t => {
+  const {contents} = renderRaw(`
+[ v]`);
+
+  t.is(null, dom5.query(parse5.parse(contents),
+                       dom5.predicates.hasTagName('select')));
+});
+
+test('not a select-box 3', t => {
+  const {contents} = renderRaw(`
+[ Oups | Zut | Sapristi | Vv ]`);
+
+  t.is(null, dom5.query(parse5.parse(contents),
+                       dom5.predicates.hasTagName('select')));
+});
+
+test('is a select-box', t => {
+  const {contents} = renderRaw(`[ Bulbizare | Salameche | Carapuce |v]`);
+
+  t.not(null, dom5.query(parse5.parse(contents),
+                       dom5.predicates.hasTagName('select')));
+});
+test('is a select-box 2', t => {
+  const {contents} = renderRaw(`[ Bulbizare | Salameche | Carapuce | V]`);
+
+  t.not(null, dom5.query(parse5.parse(contents),
+                       dom5.predicates.hasTagName('select')));
+});
+
+test('is a select-box 3', t => {
+  const {contents} = renderRaw(`[ Bulbizare | Salameche | Carapuce |  V  ]`);
+
+  t.not(null, dom5.query(parse5.parse(contents),
+                       dom5.predicates.hasTagName('select')));
+});
+
+test('is an empty select-box', t => {
+  const {contents} = renderRaw(`[|v]`);
+
+  t.not(null, dom5.query(parse5.parse(contents),
+                       dom5.predicates.hasTagName('select')));
 });
 
