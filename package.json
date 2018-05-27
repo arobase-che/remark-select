@@ -1,6 +1,6 @@
 {
   "name": "remark-select",
-  "version": "0.9.2",
+  "version": "0.9.3",
   "repository": {
     "url": "https://git.ache.one/remark-select",
     "type": "git"
@@ -11,7 +11,7 @@
   ],
   "bundleDependencies": false,
   "dependencies": {
-    "md-attr-parser": "^1.0.0"
+    "md-attr-parser": "^1.1.5"
   },
   "scripts": {
     "pretest": "xo",
@@ -28,14 +28,13 @@
   ],
   "devDependencies": {
     "ava": "^0.25.0",
-    "babel-preset-env": "^1.6.1",
     "dom5": "^3.0.0",
     "parse5": "^4.0.0",
     "rehype-raw": "^2.0.0",
     "rehype-stringify": "^3.0.0",
     "remark-parse": "^5.0.0",
     "remark-rehype": "^3.0.0",
-    "unified": "^6.1.6",
+    "unified": "^6.2.0",
     "xo": "^0.18.2"
   },
   "license": "MIT",
