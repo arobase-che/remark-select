@@ -1,6 +1,6 @@
 {
   "name": "remark-select",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "A remark plugin to parse select box syntax.",
   "repository": "github:arobase-che/remark-select",
   "author": "ache <ache@ache.one>",
@@ -9,14 +9,14 @@
   ],
   "bundleDependencies": false,
   "dependencies": {
-    "md-attr-parser": "^1.2.0"
+    "md-attr-parser": "^1.2.1"
   },
   "scripts": {
     "pretest": "xo",
     "prepare": "del-cli dist && cross-env BABEL_ENV=production babel src --out-dir dist",
     "test": "ava"
   },
-  "main": "app.js",
+  "main": "dist/index.js",
   "deprecated": false,
   "keywords": [
     "select",
@@ -36,7 +36,8 @@
     "remark-parse": "6.x",
     "remark-rehype": "4.x",
     "unified": "7.x",
-    "xo": "0.23.x"
+    "xo": "0.23.x",
+    "is-equal": "1.5.x"
   },
   "license": "GPL-3.0-or-later",
   "xo": {

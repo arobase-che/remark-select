@@ -4,20 +4,22 @@ const START = '[';
 const END_RGX = /(\| *[vV] *])({[^\n]*})?/;
 
 const parseAttr = require('md-attr-parser');
-
 /* The function that locate a text input
  * Used by remark
  */
+
+
 function locator(value, fromIndex) {
   const index = value.indexOf(START, fromIndex);
   return index;
 }
-
 /* The main plugin function */
+
+
 function plugin() {
   let END = '|v]'; // The default value isn't important
-
   // Function that check the syntax and return a text input node
+
   function inlineTokenizer(eat, value) {
     if (!this.options.gfm || !value.startsWith(START)) {
       return;
@@ -25,35 +27,39 @@ function plugin() {
 
     let subvalue = '';
     let index = 1;
-    const {length} = value;
-
+    const {
+      length
+    } = value;
     /* Not sure about that ... */
+
     const now = eat.now();
     now.column += 2;
-    now.offset += 2;
+    now.offset += 2; // Extract the options
 
-    // Extract the options
     let ret = null;
+
     if ((ret = value.substr(1).match(END_RGX)) && index < length) {
       subvalue += value.substr(1, ret.index);
       END = ret[1];
-
       index += ret.index + END.length;
     } else {
       return;
-    }
+    } // Extract the attributes
 
-    // Extract the attributes
+
     let letsEat = '';
-    let prop = {/* class: undefined  [] , id: undefined */};
+    let prop = {
+      /* class: undefined  [] , id: undefined */
+    };
+
     if (value.charAt(index) === '{') {
       const res = parseAttr(value, index);
       letsEat = res.eaten;
       index += letsEat.length;
       prop = res.prop;
-    }
+    } // Return the select node
 
-    // Return the select node
+
     if (index <= length) {
       return eat(START + subvalue + END + letsEat)({
         type: 'select',
@@ -67,35 +73,43 @@ function plugin() {
               type: 'element',
               tagName: 'option',
               properties: {
-                value: text,
+                value: text
               },
               children: [{
                 type: 'text',
-                value: text,
-              }],
+                value: text
+              }]
             };
-          }),
-        },
+          })
+        }
       });
     }
+
     return true;
   }
 
   inlineTokenizer.locator = locator;
+  const {
+    Parser
+  } = this; // Inject inlineTokenizer
 
-  const {Parser} = this;
-
-  // Inject inlineTokenizer
-  const {inlineTokenizers} = Parser.prototype;
-  const {inlineMethods} = Parser.prototype;
+  const {
+    inlineTokenizers
+  } = Parser.prototype;
+  const {
+    inlineMethods
+  } = Parser.prototype;
   inlineTokenizers.select = inlineTokenizer;
   inlineMethods.splice(inlineMethods.indexOf('url'), 0, 'select');
+  const {
+    Compiler
+  } = this; // Stringify
 
-  const {Compiler} = this;
-
-  // Stringify
   if (Compiler) {
-    const {visitors} = Compiler.prototype;
+    const {
+      visitors
+    } = Compiler.prototype;
+
     visitors.lineselect = function (node) {
       return START + this.all(node).join('') + END;
     };
